@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ToolCommandName>TalosCore</ToolCommandName>
+    <PackAsTool>True</PackAsTool>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Authors>Paul Ballew</Authors>
+    <Company />
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright (c) 2018 Paul Ballew</Copyright>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/pballew/TalosCore</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/pballew/TalosCore</PackageProjectUrl>
+    <Description>TalosCore is a dotnet Core controller generator. I decided to write it when I was creating microservices from scratch and I realized I was spending a lot of time implementing the same pattern of code based on simple schema.
+
+Note: This is not intended to be addad as a package to a project using nuget. TalosCore is a dotnet core global tool. To install, just run "dotnet tool install -g TalosCore". Then you run it against your project from the command line with "TalosCore ./myproject"  For more information, browse to the TalosCore project page on github: https://github.com/pballew/TalosCore
+
+It uses definitions of Entity Framework Core entities and generates REST interface controllers and CQRS types to access them. It first finds the DbContext class and parses out the DbSet properties. It takes that set of entities and then finds and parses the entity classes. then it generates the controller files as a REST API.
+
+The API is a simple pattern of GetList, Get, Create, and Update--basic CRUD operations (though Delete isn't there just yet).
+
+The resulting controller methods are not expected to be the final API for all projects, but is a baseline starting point that you can enhance to add relationships and logic to.</Description>
+    <Version>1.0.3</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.0" />
+    <None Include="License.txt" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+
+</Project>

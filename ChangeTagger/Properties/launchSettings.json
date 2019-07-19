@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SnapCoreService": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Projects\\git\\KenticoWeb\\CMS\\_scrum\\css C:\\Projects\\git\\KenticoWeb\\CMS\\ScrumAlliance"
+    }
+  }
+}
