@@ -1,49 +1,61 @@
-﻿using McMaster.Extensions.CommandLineUtils;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Linq;
 
-namespace ChangeTagger
+namespace DateTagger
 {
     class Program
     {
-        public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
-
-        [Argument(0, Description = "A directory containing javascript files must be specified.")]
-        [Required]
-        public string JsDirectory { get; }
-
-        [Argument(1, Description = "A directory containing web pages must be specified.")]
-        [Required]
-        public string WebPagesDirectory { get; }
-
-        private int OnExecute()
+        static void Main(string[] args)
         {
-            try
+            if (args.Length < 2)
             {
-                var fileFinder = new FileFinder();
-
-                Console.WriteLine($"Searching {JsDirectory} for updated js files");
-                var updatedJsFiles = fileFinder.GetUpdatedJsFiles(JsDirectory);
-                //foreach (var file in updatedJsFiles)
-                //{
-                //    Console.WriteLine($"Updated js file {file}");
-                //}
-
-                Console.WriteLine($"Searching {WebPagesDirectory} for references to js files");
-                var webPageFiles = fileFinder.GetFilesWithJsReferences(WebPagesDirectory);
-                //foreach (var file in webPageFiles)
-                //{
-                //    Console.WriteLine($"Web page file {file}");
-                //}
-
-                var tagger = new Tagger();
-                var taggedFiles = tagger.TagFiles(updatedJsFiles, webPageFiles);
+                Console.WriteLine("ERROR: Reference file directory and web pages directory required.");
+                Console.WriteLine("Example: dotnet DateTagger.dll ./js ./html");
+                return;
             }
-            catch (Exception ex)
+
+            var argsList = args.ToList();
+
+            bool verbose = false;
+            if (argsList[0] == "-v" || argsList[0] == "-verbose")
             {
-                Console.WriteLine(ex.Message);
+                verbose = true;
+                argsList.RemoveAt(0);
             }
-            return 0;
+
+            string JsDirectory = argsList[0];
+            string WebPagesDirectory = argsList[1];
+
+            var fileFinder = new FileFinder();
+            Console.WriteLine($"Searching {JsDirectory} for updated reference files");
+            var updatedJsFiles = fileFinder.GetUpdatedJsFiles(JsDirectory);
+            if (verbose)
+            {
+                foreach (var file in updatedJsFiles)
+                {
+                    Console.WriteLine($"Updated js file {file}");
+                }
+            }
+
+            Console.WriteLine($"Searching {WebPagesDirectory} for references to js files");
+            var webPageFiles = fileFinder.GetFilesWithJsReferences(WebPagesDirectory);
+            if (verbose)
+            {
+                foreach (var file in webPageFiles)
+                {
+                    Console.WriteLine($"Web page file {file}");
+                }
+            }
+
+            var tagger = new Tagger();
+            var taggedFiles = tagger.TagFiles(updatedJsFiles, webPageFiles);
+            if (verbose)
+            {
+                foreach (var file in taggedFiles)
+                {
+                    Console.WriteLine($"Tagged file {file}");
+                }
+            }
         }
     }
 }

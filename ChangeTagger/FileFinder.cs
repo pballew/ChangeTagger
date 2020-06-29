@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace ChangeTagger
+namespace DateTagger
 {
     public class FileFinder
     {
@@ -35,7 +35,7 @@ namespace ChangeTagger
                 foreach (var file in allFiles)
                 {
                     var lastWriteTime = File.GetLastWriteTime(file);
-                    if (DateTime.Now.AddDays(-4) < lastWriteTime)
+                    if (DateTime.Now.AddHours(-12) < lastWriteTime)
                     {
                         newFiles.Add(file);
                     }
