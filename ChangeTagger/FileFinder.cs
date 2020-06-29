@@ -6,7 +6,7 @@ namespace ChangeTagger
 {
     public class FileFinder
     {
-        public List<string> WebPageFileExtensions { get; set; } = new List<string>() { "aspx", "ascx", "html", "master" };
+        public List<string> WebPageFileExtensions { get; set; } = new List<string>() { "aspx", "ascx", "html", "master", "cshtml" };
         public List<string> ReferencedFileExtensions { get; set; } = new List<string>() { "js", "css" };
 
         public List<string> GetFilesWithJsReferences(string path)
